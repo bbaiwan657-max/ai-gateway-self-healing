@@ -78,8 +78,25 @@ def test_channel_takeover():
         print(f"   Sending request with original model: {data['model']}")
         print(f"   Expected: Model replaced with claude-3-5-sonnet")
         
+        # Print complete target URL for verification
+        target_url = f"{GATEWAY_URL}/v1/chat/completions"
+        print(f"🔗 COMPLETE TARGET URL: {target_url}")
+        
+        # CRITICAL: Validate URL for path duplication
+        if "/v1/v1" in target_url:
+            print("❌ FATAL ERROR: URL contains duplicate /v1/v1 path!")
+            print(f"   Invalid URL: {target_url}")
+            sys.exit(1)
+        
+        if target_url.count("/chat/completions") > 1:
+            print("❌ FATAL ERROR: URL contains duplicate /chat/completions path!")
+            print(f"   Invalid URL: {target_url}")
+            sys.exit(1)
+        
+        print(f"✅ URL validation passed - No path duplication detected")
+        
         response = requests.post(
-            f"{GATEWAY_URL}/v1/chat/completions",
+            target_url,
             headers=headers,
             json=data,
             timeout=30

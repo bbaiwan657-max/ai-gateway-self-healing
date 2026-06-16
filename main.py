@@ -28,8 +28,8 @@ logger = logging.getLogger(__name__)
 AGNES_MERCHANT_KEY = os.getenv("AGNES_MERCHANT_KEY")
 AGNES_PERSONAL_KEY = os.getenv("AGNES_PERSONAL_KEY")
 
-# Agnes API endpoint
-AGNES_BASE_URL = "https://api.agnes.ai/v1"
+# Agnes API endpoint - Official URL
+AGNES_BASE_URL = "https://apihub.agnes-ai.com/v1"
 
 # Core model replacement
 CORE_MODEL = "claude-3-5-sonnet"
@@ -73,11 +73,16 @@ def get_available_port() -> int:
             raise Exception("No available ports")
 
 async def forward_to_agnes(request: ChatRequest, api_key: str, channel_name: str) -> StreamingResponse:
-    """Forward request to Agnes API with streaming"""
+    """Forward request to Agnes API with streaming - Direct passthrough mode"""
     # Force replace model with core model
     modified_request = request.dict()
     modified_request["model"] = CORE_MODEL
     
+    # Direct passthrough: Use official endpoint without path duplication
+    target_url = f"{AGNES_BASE_URL}/chat/completions"
+    
+    # CRITICAL: Print complete URL for verification
+    logger.info(f"🔗 [{channel_name.upper()}] COMPLETE TARGET URL: {target_url}")
     logger.info(f"🔄 [{channel_name.upper()}] Forwarding to Agnes with model: {CORE_MODEL}")
     
     async def generate_stream():
@@ -85,7 +90,7 @@ async def forward_to_agnes(request: ChatRequest, api_key: str, channel_name: str
             async with httpx.AsyncClient(timeout=120.0) as client:
                 async with client.stream(
                     'POST',
-                    f"{AGNES_BASE_URL}/chat/completions",
+                    target_url,
                     json=modified_request,
                     headers={
                         "Authorization": f"Bearer {api_key}",
@@ -222,7 +227,9 @@ if __name__ == "__main__":
     logger.info("=" * 60)
     logger.info(f"📡 Port: {port}")
     logger.info(f"🎯 Core Model: {CORE_MODEL}")
-    logger.info(f"🔑 Merchant Channel: {'✅ Active' if AGNES_MERCHANT_KEY else '❌ Missing'}")
+    logger.info(f"� Agnes Base URL: {AGNES_BASE_URL}")
+    logger.info(f"🔗 Complete Endpoint: {AGNES_BASE_URL}/chat/completions")
+    logger.info(f"�🔑 Merchant Channel: {'✅ Active' if AGNES_MERCHANT_KEY else '❌ Missing'}")
     logger.info(f"🔑 Personal Channel: {'✅ Active' if AGNES_PERSONAL_KEY else '❌ Missing'}")
     logger.info(f"🔓 Premium Mode: ✅ ENABLED")
     logger.info("=" * 60)
