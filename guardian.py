@@ -203,10 +203,9 @@ class Guardian:
         self.check_dependencies()
         
         try:
+            # Don't redirect output for now to see what's happening
             self.main_process = subprocess.Popen(
                 [sys.executable, MAIN_PROCESS_NAME],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
                 text=True
             )
             logger.info(f"Main process started with PID: {self.main_process.pid}")
