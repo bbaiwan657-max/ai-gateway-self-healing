@@ -199,6 +199,11 @@ class Guardian:
                 text=True
             )
             logger.info(f"Main process started with PID: {self.main_process.pid}")
+            
+            # Wait for server to start up
+            logger.info("Waiting for server to start up...")
+            time.sleep(5)  # Give server time to fully start
+            
             self.restart_count = 0
             return True
         except Exception as e:
