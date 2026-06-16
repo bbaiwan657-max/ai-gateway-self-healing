@@ -10,6 +10,7 @@ A high-performance, self-healing AI model routing gateway with automatic failove
 - **Rate Limiting**: Built-in RPM tracking for all providers
 - **OpenAI Compatible**: Standard `/v1/chat/completions` endpoint
 - **Docker Support**: Containerized deployment with health checks
+- **50ms Seamless Failover**: Automatic provider switching within 50ms
 
 ## Quick Start
 
@@ -20,7 +21,7 @@ A high-performance, self-healing AI model routing gateway with automatic failove
 pip install -r requirements.txt
 ```
 
-2. Configure environment variables in `.env` (already created)
+2. Configure environment variables in `.env` (use `.env.example` as template)
 
 3. Run with guardian (recommended):
 ```bash
@@ -30,6 +31,11 @@ python guardian.py
 Or run directly:
 ```bash
 python main.py
+```
+
+4. Test the gateway:
+```bash
+python test_gateway.py
 ```
 
 ### Docker Setup
@@ -58,10 +64,10 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 
 ## Provider Priority
 
-1. **Agnes Merchant** (2x RPM limit)
-2. **Agnes Personal** (100-150 TPS)
+1. **Agnes Merchant** (2x RPM limit - 120 RPM)
+2. **Agnes Personal** (100-150 TPS - 60 RPM)
 3. **NVIDIA** (40 RPM)
-4. **AWS** (Backup)
+4. **AWS** (Backup - 1000 RPM)
 
 ## Health Checks
 
@@ -72,6 +78,7 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 
 - `main.py`: FastAPI gateway with routing logic
 - `guardian.py`: Self-healing daemon process
+- `test_gateway.py`: Test suite for validation
 - `requirements.txt`: Python dependencies
 - `Dockerfile`: Container configuration
 
@@ -80,3 +87,16 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 - All API keys loaded from environment variables
 - `.env` file in `.gitignore`
 - Token-based authentication required
+- `.env.example` provided for setup reference
+
+## Auto-Healing Features
+
+- **Dependency Detection**: Automatically installs missing Python packages
+- **Port Conflict Resolution**: Automatically kills conflicting processes
+- **Error Analysis**: Analyzes logs to determine failure causes
+- **Auto-Restart**: Restarts gateway with cooldown period
+- **Circuit Breaker**: Prevents cascading failures
+
+## GitHub Repository
+
+https://github.com/bbaiwan657-max/ai-gateway-self-healing
