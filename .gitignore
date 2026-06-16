@@ -1,4 +1,18 @@
+# Environment variables and secrets
 .env
+.env.local
+.env.*.local
+*.env
+secrets.yaml
+secrets.yml
+credentials.json
+config/secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
@@ -9,10 +23,65 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+
+# Logs
 *.log
+logs/
+*.log.*
+
+# OS and IDE files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+.project
+.pydevproject
+.settings/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# PyPI
+.PyPI
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Git hooks (should be local)
+.git/hooks/

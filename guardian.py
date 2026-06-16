@@ -11,6 +11,17 @@ import requests
 import json
 from dotenv import load_dotenv
 
+# SECURITY CHECK: Run security audit before starting
+try:
+    import security_check
+    if not security_check.run_security_checks():
+        print("❌ Security checks failed. Guardian startup aborted.")
+        sys.exit(1)
+except ImportError:
+    print("⚠️  Warning: security_check module not found. Skipping security checks.")
+except Exception as e:
+    print(f"⚠️  Warning: Security check error: {str(e)}. Continuing startup...")
+
 # Load environment variables from .env file
 load_dotenv()
 

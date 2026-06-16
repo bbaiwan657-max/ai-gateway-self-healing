@@ -1,9 +1,14 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Configuration
 GATEWAY_URL = "http://localhost:8000"
-AUTH_TOKEN = "cascade-auto-heal-token-x9k2m4n7p1q3w5r8t0u2v4y6z8a0b2c4d6e8f0g2h4j6"
+AUTH_TOKEN = os.getenv("LOCAL_AUTH_TOKEN")
 
 def test_health():
     """Test health endpoint"""
