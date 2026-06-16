@@ -11,6 +11,10 @@ import httpx
 from contextlib import asynccontextmanager
 import logging
 from functools import wraps
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(

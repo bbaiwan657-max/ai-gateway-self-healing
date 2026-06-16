@@ -9,6 +9,10 @@ from datetime import datetime
 from typing import Optional
 import requests
 import json
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
