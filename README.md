@@ -88,7 +88,9 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 
 **NEVER COMMIT .ENV FILE TO GIT OR ANY VERSION CONTROL SYSTEM**
 
-The `.env` file contains sensitive API keys, tokens, and credentials that must remain private. 
+The `.env` file contains sensitive API keys, tokens, and credentials that must remain private.
+
+**📖 Detailed Security Guide:** See [SECURITY.md](SECURITY.md) for comprehensive security documentation.
 
 **Security Rules:**
 - **.env is already in .gitignore** - Do not remove this line
@@ -110,6 +112,11 @@ The `.env` file contains sensitive API keys, tokens, and credentials that must r
 - [ ] Security checks pass on startup
 - [ ] Pre-commit hooks are installed
 
+**Run Manual Security Audit:**
+```bash
+python run_security_audit.py
+```
+
 ### Security Implementation
 
 - All API keys loaded from environment variables
@@ -118,6 +125,7 @@ The `.env` file contains sensitive API keys, tokens, and credentials that must r
 - `.env.example` provided for setup reference
 - Automatic security validation on startup
 - Pre-commit hooks for secret detection
+- Comprehensive security documentation
 
 ## Auto-Healing Features
 
